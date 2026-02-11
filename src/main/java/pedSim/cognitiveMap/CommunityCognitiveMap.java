@@ -21,8 +21,9 @@ import sim.graph.NodeGraph;
 import sim.util.geo.MasonGeometry;
 
 /**
- * This class represent a community share cognitive map (or Image of the City) used for storing meaningful information
- * about the environment and, in turn, navigating.
+ * This class represent a community share cognitive map (or Image of the City)
+ * used for storing meaningful information about the environment and, in turn,
+ * navigating.
  */
 public class CommunityCognitiveMap {
 
@@ -41,7 +42,9 @@ public class CommunityCognitiveMap {
 	private static HashMap<EdgeGraph, RoadType> roadTypeMap = new HashMap<>();
 
 	// known street segments
+	protected static Set<NodeGraph> communityKnownNodes = new HashSet<>();
 	protected static Set<EdgeGraph> communityKnownEdges = new HashSet<>();
+
 	protected static Set<EdgeGraph> cityCenterEdges;
 	protected static Set<Integer> communityKnownRegions = new HashSet<>();
 
@@ -84,7 +87,8 @@ public class CommunityCognitiveMap {
 	}
 
 	/**
-	 * Sets the community network, which includes the road type classification and road classification.
+	 * Sets the community network, which includes the road type classification and
+	 * road classification.
 	 *
 	 * @param network     The primary network.
 	 * @param dualNetwork The dual network.
@@ -92,17 +96,18 @@ public class CommunityCognitiveMap {
 	private static void setCommunityNetwork(Graph network, Graph dualNetwork) {
 
 		communityNetwork = network;
-		// Iterates over each edge in the community network and maps its road type to a corresponding entry from
+		// Iterates over each edge in the community network and maps its road type to a
+		// corresponding entry from
 		// Pars.roadTypes.
-		getCommunityNetwork().getEdges().forEach(edge -> Pars.roadTypes.entrySet().stream()
+		communityNetwork.getEdges().forEach(edge -> Pars.roadTypes.entrySet().stream()
 				.filter(entry -> Arrays.asList(entry.getValue()).contains(edge.attributes.get("roadType").getString()))
 				.findFirst().ifPresent(entry -> roadTypeMap.put(edge, entry.getKey())));
 		buildRoadClassification();
 	}
 
 	/**
-	 * Builds the road classification by categorising edges into primary, secondary, tertiary, neighbourhood, or unknown
-	 * road types.
+	 * Builds the road classification by categorising edges into primary, secondary,
+	 * tertiary, neighbourhood, or unknown road types.
 	 */
 	private static void buildRoadClassification() {
 
@@ -125,7 +130,8 @@ public class CommunityCognitiveMap {
 	}
 
 	/**
-	 * Sets the community-known edges based on road classification and city centre edges.
+	 * Sets the community-known edges based on road classification and city centre
+	 * edges.
 	 */
 	private static void setCommunityKnownEdges() {
 
@@ -140,6 +146,12 @@ public class CommunityCognitiveMap {
 		}
 
 		communityKnownEdges.addAll(cityCenterEdges);
+		communityKnownNodes.addAll(communityKnownEdges.stream().flatMap(edge -> edge.getNodes().stream()) // Flatten the
+																											// list of
+																											// nodes for
+																											// each edge
+				.collect(Collectors.toSet()) // Collect all nodes into a Set (avoiding duplicates)
+		);
 	}
 
 	/**
@@ -156,7 +168,8 @@ public class CommunityCognitiveMap {
 	}
 
 	/**
-	 * Sets the buildings at junctions by associating each junction with nearby buildings within a given distance.
+	 * Sets the buildings at junctions by associating each junction with nearby
+	 * buildings within a given distance.
 	 */
 	private static void setBuildingsAtJunctions() {
 
