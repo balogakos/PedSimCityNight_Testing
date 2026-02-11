@@ -25,9 +25,11 @@ import sim.routing.Astar;
 import sim.routing.Route;
 
 /**
- * The AgentMovement class is responsible for handling the movement of agents within the simulation. It manages the
- * agent's movement along the path, including transitions between edges, speed adjustments, and the handling of various
- * conditions such as night-time speed increase and vulnerable agent behaviour.
+ * The AgentMovement class is responsible for handling the movement of agents
+ * within the simulation. It manages the agent's movement along the path,
+ * including transitions between edges, speed adjustments, and the handling of
+ * various conditions such as night-time speed increase and vulnerable agent
+ * behaviour.
  */
 public class AgentMovement {
 
@@ -57,25 +59,21 @@ public class AgentMovement {
 
 	private NodeGraph currentNode;
 	private Graph network;
-
 	private boolean avoidParksWater;
 
 	public AgentMovement(Agent agent) {
 		this.agent = agent;
 		this.state = agent.getState();
-		this.network = CommunityCognitiveMap.getNetwork();
+		this.network = CommunityCognitiveMap.getCommunityNetwork();
 	}
 
 	/**
-	 * Initialises the path (directed edges sequence) for the agent.
-	 * 
-	 * @param route The route that defines the path the agent should follow.
+	 * Initialises the directedEdgesSequence (the path) for the agent.
 	 */
 	public void initialisePath(Route route) {
 
 		indexOnSequence = 0;
 		this.directedEdgesSequence = route.directedEdgesSequence;
-		edgesToAvoid = new HashSet<>();
 
 		// set up how to traverse this first link
 		firstDirectedEdge = directedEdgesSequence.get(indexOnSequence);
@@ -139,7 +137,8 @@ public class AgentMovement {
 	}
 
 	/**
-	 * Transitions the agent to the next edge in the sequence if the agent has finished walking the current edge.
+	 * Transitions the agent to the next edge in the sequence if the agent has
+	 * finished walking the current edge.
 	 * 
 	 * @param residualMove The remaining distance to travel on the current edge.
 	 */
@@ -182,7 +181,8 @@ public class AgentMovement {
 	}
 
 	/**
-	 * Increases the agent's movement reach based on the speed factor for night time.
+	 * Increases the agent's movement reach based on the speed factor for night
+	 * time.
 	 */
 	private void increaseReach() {
 		reach = reach + (Pars.moveRate * Pars.SPEED_INCREMENT_FACTOR);
@@ -197,8 +197,8 @@ public class AgentMovement {
 	}
 
 	/**
-	 * Computes an alternative route for the agent to avoid dangerous or unsuitable edges, reusing a cached route if
-	 * available.
+	 * Computes an alternative route for the agent to avoid dangerous or unsuitable
+	 * edges, reusing a cached route if available.
 	 */
 	private void computeAlternativeRoute() {
 		NodeGraph currentNode = (NodeGraph) edgesWalkedSoFar.get(edgesWalkedSoFar.size() - 1).getToNode();
@@ -326,17 +326,20 @@ public class AgentMovement {
 	}
 
 	/**
-	 * Checks if the edge is next to a park or water and the agent is non-vulnerable.
+	 * Checks if the edge is next to a park or water and the agent is
+	 * non-vulnerable.
 	 *
 	 * @param edge The edge to check.
-	 * @return true if the edge is next to a park or water and non-vulnerable, false otherwise.
+	 * @return true if the edge is next to a park or water and non-vulnerable, false
+	 *         otherwise.
 	 */
 	private boolean isParkWaterNonVulnerable(EdgeGraph edge) {
 		return isEdgeNextToParkOrWater(edge) && !agent.isVulnerable();
 	}
 
 	/**
-	 * Handles the case when the agent is approaching an edge in proximity or parks or water.
+	 * Handles the case when the agent is approaching an edge in proximity or parks
+	 * or water.
 	 *
 	 * @param edge The edge to be approached.
 	 */
@@ -373,7 +376,8 @@ public class AgentMovement {
 	}
 
 	/**
-	 * Determines what to do, based on the agent vulnerability, when an agent is approaching a non-lit edge.
+	 * Determines what to do, based on the agent vulnerability, when an agent is
+	 * approaching a non-lit edge.
 	 *
 	 * @param edge The lit edge to be approached.
 	 */
@@ -483,7 +487,8 @@ public class AgentMovement {
 	 * Checks if the edge is a main road.
 	 *
 	 * @param edge The edge to check.
-	 * @return true if the edge is primary (or secondary, tertiary, if included), false otherwise.
+	 * @return true if the edge is primary (or secondary, tertiary, if included),
+	 *         false otherwise.
 	 */
 	private boolean isEdgeMainRoad(EdgeGraph edge) {
 		return CommunityCognitiveMap.getCommunityKnownEdges().contains(edge);
