@@ -59,7 +59,6 @@ public class TimePars {
 		stepsInOffPeak = getStepsBetween(nightEnd, morningPeakStart) + getStepsBetween(morningPeakEnd, eveningPeakStart)
 				+ getStepsBetween(eveningPeakEnd, nightStart);
 		stepsAtNight = getStepsBetween(nightStart, nightEnd);
-
 	}
 
 	private static int getStepsBetween(LocalTime start, LocalTime end) {
@@ -70,7 +69,6 @@ public class TimePars {
 			// Case where the range crosses midnight
 			return ((24 * 60 - startMinutes) + endMinutes) / releaseAgentsEveryMinutes;
 		}
-
 		return (endMinutes - startMinutes) / 20;
 	}
 
