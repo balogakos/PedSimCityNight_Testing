@@ -18,7 +18,8 @@ import pedSim.parameters.Pars;
 import pedSim.parameters.RouteChoicePars;
 
 /**
- * A graphical user interface panel for configuring various simulation parameters.
+ * A graphical user interface panel for configuring various simulation
+ * parameters.
  */
 public class ParametersPanel extends Frame {
 	private static final long serialVersionUID = 1L;
@@ -102,7 +103,7 @@ public class ParametersPanel extends Frame {
 
 		localPathField.setBounds(X, y - 10, 350, 20);
 		add(localPathField);
-		localPathField.setText(null);
+
 	}
 
 	private void inputCityCentreRegions() {
@@ -117,7 +118,8 @@ public class ParametersPanel extends Frame {
 	}
 
 	/**
-	 * Adds double-interpreter field to the panel for adjusting simulation parameters.
+	 * Adds double-interpreter field to the panel for adjusting simulation
+	 * parameters.
 	 *
 	 * @param fieldName    The name of the parameter.
 	 * @param defaultValue The default value for the parameter.
@@ -145,8 +147,9 @@ public class ParametersPanel extends Frame {
 	}
 
 	/**
-	 * Adjusts the simulation parameters based on the values entered in text fields. Parses the values and updates the
-	 * corresponding parameters in the Parameters class.
+	 * Adjusts the simulation parameters based on the values entered in text fields.
+	 * Parses the values and updates the corresponding parameters in the Parameters
+	 * class.
 	 */
 	private void adjustParameters() {
 		if (localPathField.getText() == null || localPathField.getText() == "") {
