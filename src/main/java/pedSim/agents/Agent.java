@@ -26,8 +26,8 @@ import sim.routing.Route;
 import sim.util.geo.MasonGeometry;
 
 /**
- * This class represents an agent in the pedestrian simulation. Agents move along paths between origin and destination
- * nodes.
+ * This class represents an agent in the pedestrian simulation. Agents move
+ * along paths between origin and destination nodes.
  */
 public class Agent implements Steppable {
 
@@ -61,7 +61,8 @@ public class Agent implements Steppable {
 	private Graph agentNetwork;
 
 	/**
-	 * Constructor Function. Creates a new agent with the specified agent properties.
+	 * Constructor Function. Creates a new agent with the specified agent
+	 * properties.
 	 *
 	 * @param state the PedSimCity simulation state.
 	 */
@@ -87,7 +88,8 @@ public class Agent implements Steppable {
 	}
 
 	/**
-	 * This is called every tick by the scheduler. It moves the agent along the path.
+	 * This is called every tick by the scheduler. It moves the agent along the
+	 * path.
 	 *
 	 * @param state the simulation state.
 	 */
@@ -143,7 +145,6 @@ public class Agent implements Steppable {
 		destinationNode = null;
 		status = AgentStatus.WALKING_ALONE;
 		updateAgentLists(true, false);
-
 	}
 
 	/**
