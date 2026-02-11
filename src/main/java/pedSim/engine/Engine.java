@@ -43,7 +43,6 @@ public class Engine {
 		handleNewDay();
 
 		double nextAgentRelease = 1.0;
-
 		while (continueSimulation()) {
 			double steps = state.schedule.getSteps();
 
@@ -99,7 +98,7 @@ public class Engine {
 
 	/**
 	 * Handles the start of a new day by calculating the km for the day and
-	 * initializing the release manager.
+	 * Initialising the release manager.
 	 */
 	private void handleNewDay() {
 		kmCurrentDay = calculateKmCurrentDay();
@@ -108,9 +107,9 @@ public class Engine {
 	}
 
 	/**
-	 * Calculates the kilometers for the current day based on predefined parameters.
+	 * Calculates the kilometres for the current day based on predefined parameters.
 	 *
-	 * @return The total kilometers for the current day.
+	 * @return The total kilometres for the current day.
 	 */
 	private double calculateKmCurrentDay() {
 		return Pars.metersPerDay * Utilities.fromDistribution(1.0, 0.10, null);
