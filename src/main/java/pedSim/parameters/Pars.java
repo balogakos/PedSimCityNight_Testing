@@ -4,8 +4,10 @@ import java.util.HashMap;
 import pedSim.utilities.StringEnum.RoadType;
 
 /**
- * The Parameters class contains global parameters and settings for the PedSimCity simulation. These
- * parameters are used to configure various aspects of the simulation, including simulation mode,
+ * The Parameters class contains global parameters and settings for the
+ * PedSimCity simulation. These
+ * parameters are used to configure various aspects of the simulation, including
+ * simulation mode,
  * agent behavior, and data import options.
  */
 public class Pars {
@@ -33,19 +35,17 @@ public class Pars {
 
   // for development/testing purposes only
   public static boolean javaProject = false;
-  public static String localPath =
-      "C:/Users/gfilo/OneDrive - The University of Liverpool/Scripts/pedsimcityNight/src/main/resources/";
+  public static String localPath = "C:/Users/sgabalog/Documents/PedSim/PedSimCityNight_Testing/src/main/resources/";
 
-  static String[] primary = {"primary", "primary_link"};
-  static String[] secondary = {"secondary", "secondary_link"};
-  static String[] tertiary = {"tertiary", "tertiary_link", "unclassified"};
-  static String[] neighborhood = {"residential", "pedestrian", "living_street"};
-  static String[] unknown =
-      {"footway", "bridleway", "steps", "corridor", "path", "track", "service"};
+  static String[] primary = { "primary", "primary_link" };
+  static String[] secondary = { "secondary", "secondary_link" };
+  static String[] tertiary = { "tertiary", "tertiary_link", "unclassified" };
+  static String[] neighborhood = { "residential", "pedestrian", "living_street" };
+  static String[] unknown = { "footway", "bridleway", "steps", "corridor", "path", "track", "service" };
 
   public static HashMap<RoadType, String[]> roadTypes = new HashMap<>();
 
-  private static void setSimulationParameters() {
+  public static void setSimulationParameters() {
 
     TimePars.setTemporalPars();
     moveRate = TimePars.STEP_DURATION * pedestrianSpeed;
