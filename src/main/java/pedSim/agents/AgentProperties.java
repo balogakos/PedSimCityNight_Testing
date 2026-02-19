@@ -3,13 +3,16 @@ package pedSim.agents;
 import java.util.Random;
 
 /**
- * `EmpiricalAgentProperties` is a subclass of `AgentProperties` that represents the properties of an agent in a
- * pedestrian simulation with empirical-based parameters. It extends the base `AgentProperties` class to incorporate
+ * `EmpiricalAgentProperties` is a subclass of `AgentProperties` that represents
+ * the properties of an agent in a
+ * pedestrian simulation with empirical-based parameters. It extends the base
+ * `AgentProperties` class to incorporate
  * additional parameters.
  */
 public class AgentProperties {
 
 	public Agent agent;
+	public ScheduleType scheduleType;
 
 	// for general routing
 	public boolean onlyMinimising = true;
@@ -17,12 +20,14 @@ public class AgentProperties {
 	final Random random = new Random();
 
 	/**
-	 * Sets the route choice for the agent and updates related properties accordingly.
+	 * Sets the route choice for the agent and updates related properties
+	 * accordingly.
 	 *
 	 * @param agent The agent to which the properties are attached.
 	 */
 	public AgentProperties(Agent agent) {
 		this.agent = agent;
+		this.scheduleType = ScheduleType.values()[random.nextInt(ScheduleType.values().length)];
 	}
 
 	public AgentProperties() {

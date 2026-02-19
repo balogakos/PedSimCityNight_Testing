@@ -3,6 +3,7 @@ package pedSim.agents;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.time.LocalDateTime;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -97,8 +98,10 @@ public class Agent implements Steppable {
 	public void step(SimState state) {
 		final PedSimCity stateSchedule = (PedSimCity) state;
 
-		if (isWaiting())
+		if (isWaiting()) {
+			checkSchedule(state);
 			return;
+		}
 
 		if (isWalkingAlone() && destinationNode == null)
 			planNewTrip();
@@ -110,6 +113,54 @@ public class Agent implements Steppable {
 			;
 		else
 			agentMovement.keepWalking();
+	}
+
+	/**
+	 * Checks if the agent should start a trip based on its schedule and current
+	 * time.
+	 */
+	private void checkSchedule(SimState state) {
+		LocalDateTime currentTime = TimePars.getTime(state.schedule.getSteps());
+		int hour = currentTime.getHour();
+		boolean startTrip = false;
+
+		switch (agentProperties.scheduleType) {
+			case StandardWorker: // 9-5 worker: Leaves 7-9 AM
+				if (hour >= 7 && hour < 9)
+					startTrip = true;
+				break;
+			case PartTimeWorker: // Leaves 10-11 AM
+				if (hour >= 10 && hour < 12)
+					startTrip = true;
+				break;
+			case Student: // Leaves 7:30-8:30 AM
+				if (hour == 7 && currentTime.getMinute() >= 30 || hour == 8 && currentTime.getMinute() < 30)
+					startTrip = true;
+				break;
+			case Shopper: // Leaves 10 AM - 2 PM
+				if (hour >= 10 && hour < 14)
+					startTrip = true;
+				break;
+			case EveningSocializer: // Leaves 7-9 PM
+				if (hour >= 19 && hour < 21)
+					startTrip = true;
+				break;
+			case NightShift: // Leaves 10 PM - 12 AM
+				if (hour >= 22 || hour == 0)
+					startTrip = true;
+				break;
+			case Homebody: // Rarely leaves (1% chance per hour)
+				if (random.nextDouble() < 0.01)
+					startTrip = true;
+				break;
+		}
+
+		// Add some randomness so not Everyone leaves at the exact same second
+		if (startTrip && random.nextDouble() < 0.05) {
+			System.out.println("[" + currentTime.getDayOfYear() + " " + currentTime.toLocalTime() + "] Agent " + agentID
+					+ " (" + agentProperties.scheduleType + ") starting trip.");
+			startWalkingAlone();
+		}
 	}
 
 	/**
@@ -235,14 +286,14 @@ public class Agent implements Steppable {
 		lastDestination = destinationNode;
 		destinationNode = null;
 		switch (status) {
-		case WALKING_ALONE:
-			handleReachedSoloDestination();
-			break;
-		case GOING_HOME:
-			handleReachedHome();
-			break;
-		default:
-			break;
+			case WALKING_ALONE:
+				handleReachedSoloDestination();
+				break;
+			case GOING_HOME:
+				handleReachedHome();
+				break;
+			default:
+				break;
 		}
 	}
 
