@@ -113,6 +113,7 @@ public class PedSimCity extends SimState {
 		if (!barriers.getGeometries().isEmpty())
 			MBR.expandToInclude(barriers.getMBR());
 		roads.setMBR(MBR);
+		agents.setMBR(MBR);
 	}
 
 	/**

@@ -65,6 +65,7 @@ public class AgentMovement {
 		this.agent = agent;
 		this.state = agent.getState();
 		this.network = CommunityCognitiveMap.getCommunityNetwork();
+		this.edgesToAvoid = new HashSet<>();
 	}
 
 	/**
@@ -221,22 +222,22 @@ public class AgentMovement {
 		int iteration = 0;
 		while (alternativeRoute == null) {
 			switch (iteration) {
-			case 0 -> {
-				// Add secondary roads, still try avoiding non-lit and parks/water
-				edgesToAvoid.removeAll(CommunityCognitiveMap.getNeighbourhoodEdges());
-				edgesToAvoid.addAll(CommunityCognitiveMap.getEdgesNonLitNonCommunityKnown());
-				if (agent.isVulnerable() || avoidParksWater)
-					edgesToAvoid.addAll(CommunityCognitiveMap.getEdgesWithinParksOrAlongWater());
-			}
-			// give up park avoidance
-			case 1 -> edgesToAvoid.removeAll(CommunityCognitiveMap.getEdgesWithinParks());
-			// give up water avoidance
-			case 2 -> edgesToAvoid.removeAll(CommunityCognitiveMap.getEdgesAlongWater());
-			// give up non-lit avoidance
-			case 3 -> edgesToAvoid.removeAll(CommunityCognitiveMap.getEdgesNonLitNonCommunityKnown());
-			default -> {
-				edgesToAvoid.clear();
-			}
+				case 0 -> {
+					// Add secondary roads, still try avoiding non-lit and parks/water
+					edgesToAvoid.removeAll(CommunityCognitiveMap.getNeighbourhoodEdges());
+					edgesToAvoid.addAll(CommunityCognitiveMap.getEdgesNonLitNonCommunityKnown());
+					if (agent.isVulnerable() || avoidParksWater)
+						edgesToAvoid.addAll(CommunityCognitiveMap.getEdgesWithinParksOrAlongWater());
+				}
+				// give up park avoidance
+				case 1 -> edgesToAvoid.removeAll(CommunityCognitiveMap.getEdgesWithinParks());
+				// give up water avoidance
+				case 2 -> edgesToAvoid.removeAll(CommunityCognitiveMap.getEdgesAlongWater());
+				// give up non-lit avoidance
+				case 3 -> edgesToAvoid.removeAll(CommunityCognitiveMap.getEdgesNonLitNonCommunityKnown());
+				default -> {
+					edgesToAvoid.clear();
+				}
 			}
 			alternativeRoute = aStar.astarRoute(currentNode, agent.destinationNode, CommunityCognitiveMap.getNetwork(),
 					edgesToAvoid);
